@@ -5,11 +5,12 @@ import ru.netology.Game;
 import ru.netology.NotRegisteredException;
 import ru.netology.Player;
 
-class GameTest {
+public class GameTest {
     private Game game;
     private Player player1;
     private Player player2;
     private Player player3;
+    private Player player4;
 
     @BeforeEach
     void setUp() {
@@ -17,7 +18,9 @@ class GameTest {
         player1 = new Player(1, "John", 10);
         player2 = new Player(2, "Alice", 15);
         player3 = new Player(3, "Bob", 12);
+        player4 = new Player(4, "Eva", 10);
     }
+
 
     @Test
     void testRound_Player1Wins() throws NotRegisteredException {
@@ -72,5 +75,27 @@ class GameTest {
         Assertions.assertThrows(NotRegisteredException.class, () -> {
             game.round("John", "Alice");
         });
+    }
+
+    @Test
+    void testGetId() {
+        int expectedId = 1;
+        String name = "John";
+        int strength = 10;
+        Player player = new Player(expectedId, name, strength);
+
+        int actualId = player.getId();
+
+        Assertions.assertEquals(expectedId, actualId);
+    }
+
+    @Test
+    void testRound_Draw() throws NotRegisteredException {
+        game.register(player1);
+        game.register(player4);
+
+        int result = game.round("John", "Eva");
+
+        Assertions.assertEquals(0, result);
     }
 }
